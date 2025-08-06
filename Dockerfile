@@ -1,0 +1,30 @@
+
+#cmd: docker build -t firstdocer .
+#docker run firstdocker
+
+FROM nvidia/cuda:11.2.2-cudnn8-devel-ubuntu20.04
+
+RUN apt-get -y update
+RUN apt-get -y install python3-pip
+
+# Uninstalling Cython
+RUN pip uninstall Cython -y
+
+
+WORKDIR /
+
+# Copy the current directory contents into the container at /app
+ADD . /
+
+# Clonning TensorFlow models repository
+#RUN git clone --depth 1 https://github.com/tensorflow/models
+
+# Installing required dependencies
+
+RUN pip install -r requirements.txt
+RUN pip install jupyter
+EXPOSE 8881
+
+
+# Setting LD_LIBRARY_PATH
+#ENV LD_LIBRARY_PATH=/usr/local/cuda-11.2/lib64:$LD_LIBRARY_PATH
